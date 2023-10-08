@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,8 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import kotlin.collections.builders.MapBuilder;
 
 public class MainActivity extends AppCompatActivity {
     private TextView textViewLetter;
@@ -69,10 +68,12 @@ public class MainActivity extends AppCompatActivity {
         //set variables
         life = 13;
         letterIndex = 0;
-        selectedLetter = textViewLetter.getText().charAt(0);
+        selectedLetter = 'A';
 
-        //set image
+        //set elements
         imageView.setImageResource(R.drawable.akasztofa00);
+        textViewLetter.setText(String.valueOf(selectedLetter));
+        textViewLetter.setTextColor(Color.rgb(0,0,0));
 
         //set alertdialog
         alert = new AlertDialog.Builder(MainActivity.this);
@@ -110,6 +111,14 @@ public class MainActivity extends AppCompatActivity {
         setResult();
     }
 
+    public void setLetterColor(){
+        if (map.get(selectedLetter)){
+            textViewLetter.setTextColor(Color.rgb(255,0,0));
+        } else{
+            textViewLetter.setTextColor(Color.rgb(0,0,0));
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,7 +137,9 @@ public class MainActivity extends AppCompatActivity {
                 {
                     letterIndex = letterIndex - 1;
                 }
+
                 selectedLetter = alphabet[letterIndex];
+                setLetterColor();
                 textViewLetter.setText(String.valueOf(selectedLetter));
             }
         });
@@ -144,7 +155,9 @@ public class MainActivity extends AppCompatActivity {
                 {
                     letterIndex = letterIndex + 1;
                 }
+
                 selectedLetter = alphabet[letterIndex];
+                setLetterColor();
                 textViewLetter.setText(String.valueOf(selectedLetter));
             }
         });
@@ -152,6 +165,10 @@ public class MainActivity extends AppCompatActivity {
         buttonGuess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //set letter color
+                map.put(selectedLetter, true);
+                setLetterColor();
+
                 if (containsLetter()){
                     for (int i = 0; i < correctWord.length(); i++){
                         if (selectedLetter == correctWord.charAt(i))
@@ -211,8 +228,6 @@ public class MainActivity extends AppCompatActivity {
                             break;
                     }
                 }
-
-                //set letter color
             }
         });
     }

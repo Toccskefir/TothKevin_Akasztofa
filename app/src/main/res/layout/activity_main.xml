@@ -39,7 +39,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:id="@+id/textViewLetter"
-            android:text="A"
             android:textSize="25sp"
             android:textAlignment="center"/>
 
